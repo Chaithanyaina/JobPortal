@@ -16,8 +16,15 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+// ✅ Fix CORS issue by removing trailing slash & allowing local frontend
+const allowedOrigins = [
+    'http://localhost:5173',  // Local frontend for development
+    'https://job-sphere-mu.vercel.app'  // Deployed frontend
+];
+
 app.use(cors({
-    origin: 'https://job-sphere-mu.vercel.app/',
+    origin: allowedOrigins,
     credentials: true
 }));
 
@@ -32,8 +39,8 @@ const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {
     try {
         await connectDB();
-        console.log(`Server running at port ${PORT}`);
+        console.log(`✅ Server running at port ${PORT}`);
     } catch (error) {
-        console.error("Failed to start server:", error);
+        console.error("❌ Failed to start server:", error);
     }
 });
