@@ -3,9 +3,6 @@ node_modules/
 npm-debug.log
 .env
 
-# Vite build output
-/frontend/dist/
-/backend/dist/
 
 # Logs
 logs
