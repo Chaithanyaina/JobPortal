@@ -92,6 +92,7 @@ export const getApplicants = async (req, res) => {
 };
 
 // Update application status
+// Update application status
 export const updateStatus = async (req, res) => {
     try {
         const { status } = req.body;
@@ -109,13 +110,6 @@ export const updateStatus = async (req, res) => {
         // Update application status
         application.status = status.toLowerCase();
         await application.save();
-
-        // Update status in the job's applications array
-        await Job.updateOne(
-            { _id: application.job },
-            { $set: { "applications.$[elem].status": status.toLowerCase() } },
-            { arrayFilters: [{ "elem._id": application._id }] }
-        );
 
         return res.status(200).json({ message: "Status updated successfully.", success: true });
     } catch (error) {

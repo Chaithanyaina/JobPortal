@@ -13,18 +13,19 @@ const Applicants = () => {
     const { applicants } = useSelector(store => store.application);
 
     useEffect(() => {
-        if (!params.id) return;
-
         const fetchAllApplicants = async () => {
-            try {
-                const res = await axios.get(`${APPLICATION_API_END_POINT}/${params.id}/applicants`, { withCredentials: true });
-                dispatch(setAllApplicants(res.data.job));
-            } catch (error) {
-                console.error("Error fetching applicants:", error);
-            }
+          try {
+            const res = await axios.get(
+              `${APPLICATION_API_END_POINT}/applicants/${params.id}`,
+              { withCredentials: true }
+            );
+            dispatch(setAllApplicants(res.data.applications));
+          } catch (error) {
+            console.error("Error fetching applicants:", error);
+          }
         };
-        fetchAllApplicants();
-    }, [params.id, dispatch]);
+        if (params.id) fetchAllApplicants();
+      }, [params.id, dispatch]);
 
     return (
         <div>
