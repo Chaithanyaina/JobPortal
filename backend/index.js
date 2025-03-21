@@ -16,17 +16,27 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// backend/index.js
 app.use(cors({
-    origin: 'https://job-sphere-mu.vercel.app/',
-    credentials: true
-}));
-
+    origin: [
+      'https://job-sphere-mu.vercel.app',
+      'http://localhost:5173'
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE']
+  }));
 // Routes
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
-
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error'
+    });
+  });
 // Start server
 const PORT = process.env.PORT || 8000;
 app.listen(PORT, async () => {

@@ -65,14 +65,16 @@ const CompanySetup = () => {
     }
 
     useEffect(() => {
-        setInput({
+        if (singleCompany) {
+          setInput({
             name: singleCompany.name || "",
             description: singleCompany.description || "",
             website: singleCompany.website || "",
             location: singleCompany.location || "",
-            file: singleCompany.file || null
-        })
-    },[singleCompany]);
+            file: null
+          });
+        }
+      }, [singleCompany]);
 
     return (
         <div>
